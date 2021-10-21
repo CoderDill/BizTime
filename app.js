@@ -8,6 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.use("/companies", companyRoute)
 
 app.get("/favicon.ico", (req, res) => res.sendStatus(204));
 
