@@ -5,8 +5,21 @@ const db = require("../db");
 
 router.get("/", async function (req, res, next) {
   try {
-    const result = await db.query(`SELECT code, name FROM companies`);
-    return res.json({ companies: result.rows });
+    const results = await db.query(`SELECT code, name, description FROM companies`);
+    return res.json({ companies: results.rows });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.post("/", async function (req, res, next) {
+  try {
+    const { code, name, description } = req.body;
+    const results = await db.query(
+      `INSERT INTO companies (code, name, description) VALUES ($1, $2, $3) RETURNING *`,
+      [code, name, description]
+    );
+    return res.status(201).json(results.rows[0]); //Add Status 201 for created
   } catch (err) {
     return next(err);
   }
@@ -15,14 +28,14 @@ router.get("/", async function (req, res, next) {
 router.get("/:code", async function (req, res, next) {
   try {
     const { code } = req.params;
-    const result = await db.query(
+    const results = await db.query(
       `SELECT code, name, description FROM companies WHERE companies.code = $1`,
       [code]
     );
-    if (result.rowCount === 0) {
+    if (results.rowCount === 0) {
       throw new ExpressError("Code not found", 404);
     }
-    return res.json({ companies: result.rows });
+    return res.json({ companies: results.rows });
   } catch (err) {
     return next(err);
   }
