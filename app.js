@@ -9,7 +9,10 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 const companyRoute = require("./routes/companies");
-app.use("/companies", companyRoute)
+app.use("/companies", companyRoute);
+
+const invoiceRoute = require("./routes/invoices");
+app.use("/invoices", invoiceRoute);
 
 app.get("/favicon.ico", (req, res) => res.sendStatus(204));
 
