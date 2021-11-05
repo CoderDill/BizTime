@@ -54,7 +54,7 @@ router.get("/:code", async function (req, res, next) {
 
     company.invoices = invoices.map((invoice) => invoice.id);
 
-    return res.json({ company: company });
+    return res.send(company);
   } catch (err) {
     return next(err);
   }
