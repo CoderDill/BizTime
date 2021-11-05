@@ -6,16 +6,21 @@ const db = require("../db");
 let testCompany;
 
 beforeEach(async () => {
-  const result = await db.query(
+  const compResult = await db.query(
     `INSERT INTO companies (code, name, description) VALUES ('mac', 'Macintosh', 'Tech')
         RETURNING *`
   );
-
-  testCompany = result.rows[0];
+  const invoiceResult = await db.query(
+    `INSERT INTO invoices (comp_Code, amt, paid, paid_date) VALUES ('mac', 100, false, null)
+        RETURNING *`
+  );
+  testCompany = compResult.rows[0];
+  testCompany.invoices = invoiceResult.rows[0];
 });
 
 afterEach(async () => {
   await db.query(`DELETE FROM companies`);
+  await db.query(`DELETE FROM invoices`);
 });
 
 afterAll(async () => {
@@ -25,6 +30,7 @@ afterAll(async () => {
 describe("GET /companies", function () {
   test("Get a list wtih one company", async () => {
     const res = await request(app).get("/companies");
+    console.log(res.body);
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual({ companies: [testCompany] });
   });
