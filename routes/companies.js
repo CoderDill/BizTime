@@ -46,13 +46,13 @@ router.get("/:code", async function (req, res, next) {
     );
 
     if (compResult.rows.length === 0) {
-      throw new ExpressError(`No such company: ${code}`, 404);
+      throw new ExpressError(`No company code: ${code}`, 404);
     }
 
     const company = compResult.rows[0];
     const invoices = invResult.rows;
 
-    company.invoices = invoices.map((inv) => inv.id);
+    company.invoices = invoices.map((invoice) => invoice.id);
 
     return res.json({ company: company });
   } catch (err) {

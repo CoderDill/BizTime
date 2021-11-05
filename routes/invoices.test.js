@@ -13,10 +13,16 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await db.query(`DELETE FROM companies`);
   await db.query(`DELETE FROM invoices`);
 });
 
 afterAll(async () => {
   await db.end();
+});
+
+describe("GET /invoices", function () {
+  test("Get a list wtih one invoice", async () => {
+    const res = await request(app).get("/invoices");
+    expect(res.statusCode).toBe(200);
+  });
 });
