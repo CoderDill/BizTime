@@ -59,3 +59,11 @@ describe("POST /companies", () => {
     });
   });
 });
+
+describe("DELETE /companies/:code", () => {
+  test("Deletes a single company", async function () {
+    const res = await request(app).delete(`'companies/${testCompany.code}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ status: "Deleted" });
+  });
+});

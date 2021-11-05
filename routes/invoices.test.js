@@ -26,3 +26,11 @@ describe("GET /invoices", function () {
     expect(res.statusCode).toBe(200);
   });
 });
+
+describe("DELETE /invoices/:id", () => {
+  test("Deletes a single invoice", async function () {
+    const res = await request(app).delete(`invoices/${invoices.id}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ status: "Deleted" });
+  });
+});
