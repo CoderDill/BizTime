@@ -2,6 +2,7 @@ const express = require("express");
 const ExpressError = require("../expressError");
 const router = express.Router();
 const db = require("../db");
+const slugify = require("slugify");
 
 router.get("/", async function (req, res, next) {
   try {
@@ -17,9 +18,13 @@ router.get("/", async function (req, res, next) {
 router.post("/", async function (req, res, next) {
   try {
     const { code, name, description } = req.body;
+    const slugify_code = slugify(code, {
+      replacement: "_",
+      lower: true,
+    });
     const results = await db.query(
       `INSERT INTO companies (code, name, description) VALUES ($1, $2, $3) RETURNING *`,
-      [code, name, description]
+      [slugify_code, name, description]
     );
     return res.status(201).json(results.rows[0]); //Add Status 201 for created
   } catch (err) {
