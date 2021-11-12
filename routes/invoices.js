@@ -82,6 +82,10 @@ router.patch("/:id", async function (req, res, next) {
   }
 });
 
+router.put("/:id", async function (err, req, res, next) {
+  
+})
+
 router.delete("/:id", async function (req, res, next) {
   try {
     const results = await db.query(`DELETE FROM invoices WHERE id=$1`, [

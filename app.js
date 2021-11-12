@@ -14,8 +14,8 @@ app.use("/companies", companyRoute);
 const invoiceRoute = require("./routes/invoices");
 app.use("/invoices", invoiceRoute);
 
-const industryRoute = require("./routes/industries");
-app.use("/industries", industryRoute);
+// const industryRoute = require("./routes/industries");
+// app.use("/industries", industryRoute);
 
 app.get("/favicon.ico", (req, res) => res.sendStatus(204));
 
